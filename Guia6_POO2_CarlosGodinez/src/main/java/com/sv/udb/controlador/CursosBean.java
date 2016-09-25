@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sv.udb.controlador;
 
-import com.sv.udb.ejb.AlumnosFacadeLocal;
-import com.sv.udb.modelo.Alumnos;
+import com.sv.udb.ejb.CursosFacadeLocal;
+import com.sv.udb.modelo.Cursos;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -18,51 +13,73 @@ import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author REGISTRO
+ * @author Laboratorio
  */
-@Named(value = "alumnosBean")
+@Named(value = "cursosBean")
 @ViewScoped
-public class AlumnosBean implements Serializable{
-    @EJB
-    private AlumnosFacadeLocal FCDEAlum;    
-    private Alumnos objeAlum;
-    private List<Alumnos> listAlum;
-    private boolean guardar;
+public class CursosBean implements Serializable{
 
-    public Alumnos getObjeAlum() {
-        return objeAlum;
+    @EJB
+    private CursosFacadeLocal FCDECurs;    
+    private Cursos objeCurs;
+    private List<Cursos> listCurs;
+    private boolean guardar;
+    /**
+     * Creates a new instance of CursosBean
+     */
+    public CursosBean() {
+        
+    }
+    
+    @PostConstruct
+    public void init(){
+        limpForm();
+        consTodo();
+    }
+    
+    public void limpForm(){
+        this.objeCurs = new Cursos();
+        this.guardar = true;
     }
 
-    public void setObjeAlum(Alumnos objeAlum) {
-        this.objeAlum = objeAlum;
+    public Cursos getObjeCurs() {
+        return objeCurs;
+    }
+
+    public void setObjeCurs(Cursos objeCurs) {
+        this.objeCurs = objeCurs;
+    }
+
+    public List<Cursos> getListCurs() {
+        return listCurs;
+    }
+
+    public void setListCurs(List<Cursos> listCurs) {
+        this.listCurs = listCurs;
     }
 
     public boolean isGuardar() {
         return guardar;
     }
 
-    public List<Alumnos> getListAlum() {
-        return listAlum;
+    public void setGuardar(boolean guardar) {
+        this.guardar = guardar;
     }
     
-    /**
-     * Creates a new instance of AlumnosBean
-     */
-    
-    public AlumnosBean() {
-    }
-    
-    @PostConstruct
-    public void init()
+    public void consTodo()
     {
-        this.limpForm();
-        this.consTodo();
-    }
-    
-    public void limpForm()
-    {
-        this.objeAlum = new Alumnos();
-        this.guardar = true;        
+        try
+        {
+            this.listCurs = FCDECurs.findAll();
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            
+        }
     }
     
     public void guar()
@@ -70,8 +87,8 @@ public class AlumnosBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            FCDEAlum.create(this.objeAlum);
-            this.listAlum.add(this.objeAlum);
+            FCDECurs.create(this.objeCurs);
+            this.listCurs.add(this.objeCurs);
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
         }
@@ -90,9 +107,9 @@ public class AlumnosBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            this.listAlum.remove(this.objeAlum); //Limpia el objeto viejo
-            FCDEAlum.edit(this.objeAlum);
-            this.listAlum.add(this.objeAlum); //Agrega el objeto modificado
+            this.listCurs.remove(this.objeCurs); //Limpia el objeto viejo
+            FCDECurs.edit(this.objeCurs);
+            this.listCurs.add(this.objeCurs); //Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
         }
         catch(Exception ex)
@@ -110,8 +127,8 @@ public class AlumnosBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            FCDEAlum.remove(this.objeAlum);
-            this.listAlum.remove(this.objeAlum);
+            FCDECurs.remove(this.objeCurs);
+            this.listCurs.remove(this.objeCurs);
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
         }
@@ -125,32 +142,16 @@ public class AlumnosBean implements Serializable{
         }
     }
     
-    public void consTodo()
-    {
-        try
-        {
-            this.listAlum = FCDEAlum.findAll();
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        finally
-        {
-            
-        }
-    }
-    
     public void cons()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiAlumPara"));
+        int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiCursPara"));
         try
         {
-            this.objeAlum = FCDEAlum.find(codi);
+            this.objeCurs = FCDECurs.find(codi);
             this.guardar = false;
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
-                    String.format("%s %s", this.objeAlum.getNombAlum(), this.objeAlum.getApelAlum()) + "')");
+                    String.format("%s", this.objeCurs.getNombCurs()) + "')");
         }
         catch(Exception ex)
         {
