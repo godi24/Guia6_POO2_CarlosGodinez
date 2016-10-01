@@ -16,12 +16,11 @@ public class LOG4J {
     private static Logger log = Logger.getLogger(LOG4J.class);
     public LOG4J() {
         try{
-            PropertyConfigurator.configure(this.getClass().getClassLoader().getResource("/log4j.properties").getPath());;
-            
+            PropertyConfigurator.configure(this.getClass().getClassLoader().getResource("/log4j.properties").getPath());
         }
         catch(Exception e)
         {
-            System.out.println("Error con LOG: "+e);
+            System.out.println("EXCEPCIÓN: "+e);
         }
         
     }
@@ -32,7 +31,7 @@ public class LOG4J {
         }
         catch(Exception e)
         {
-            System.out.println("Error con LOG: "+e);
+            System.out.println("EXCEPCIÓN: "+e);
         }
         
     }
@@ -40,10 +39,11 @@ public class LOG4J {
     public void debug(String mens){
         try{
             log.debug(mens);
+            System.out.println("SE HA DEBUGEADO LA APLICACIÓN CORRECTAMENTE");
         }
         catch(Exception e)
         {
-            System.out.println("Error con LOG: "+e);
+            System.out.println("EXCEPCIÓN: "+e);
         }
         
     }
@@ -51,11 +51,11 @@ public class LOG4J {
     public void info(String mens){
         try{
             log.info(mens);
-            System.out.println("LOG Generado");
+            System.out.println("SE HA CREADO UN LOG");
         }
         catch(Exception e)
         {
-            System.out.println("Error con LOG: "+e);
+            System.out.println("EXCEPCIÓN: "+e);
         }
     }
     //Fallos no críticos
@@ -65,27 +65,29 @@ public class LOG4J {
         }
         catch(Exception e)
         {
-            System.out.println("Error con LOG: "+e);
+            System.out.println("EXCEPCIÓN: "+e);
         }
     }
     //Errores importantes, que no obligan a cerrar la aplicación
     public void error(String mens){
         try{
             log.error(mens);
+            System.out.println("SE HA PRODUCIDO UN ERROR");
         }
         catch(Exception e)
         {
-            System.out.println("Error con LOG: "+e);
+            System.out.println("EXCEPCIÓN: "+e);
         }
     }
     //Errores importantes que obligan a cerrar la aplicación
     public void fatal(String mens){
         try{
             log.fatal(mens);
+            System.out.println("SE HA PRODUCIDO UN ERROR FATAL");
         }
         catch(Exception e)
         {
-            System.out.println("Error con LOG: "+e);
+            System.out.println("EXCEPCIÓN: "+e);
         }
     }
     

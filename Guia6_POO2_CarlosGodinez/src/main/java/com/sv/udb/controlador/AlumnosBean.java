@@ -60,6 +60,7 @@ public class AlumnosBean implements Serializable{
         this.limpForm();
         this.consTodo();
         log = new LOG4J();
+        log.debug("Se ha inicializado el modelo de Alumnos");
     }
     
     public void limpForm()
@@ -75,13 +76,13 @@ public class AlumnosBean implements Serializable{
         {
             FCDEAlum.create(this.objeAlum);
             this.listAlum.add(this.objeAlum);
-            this.limpForm();
             log.info("Alumno agregado: " +objeAlum.getNombAlum()+" "+objeAlum.getApelAlum());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
+            this.limpForm();
         }
         catch(Exception ex)
         {
-            log.error("Error al agregar Alumno: " +  ex.getMessage());
+            log.error("Error al agregar Alumno: " +  String.valueOf(ex.fillInStackTrace()));
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar ')");
         }
         finally
@@ -103,7 +104,7 @@ public class AlumnosBean implements Serializable{
         }
         catch(Exception ex)
         {
-            log.error("Error al modificar Alumno: " +  ex.getMessage());
+            log.error("Error al modificar Alumno: " +  String.valueOf(ex.fillInStackTrace()));
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
         finally
@@ -119,13 +120,13 @@ public class AlumnosBean implements Serializable{
         {
             FCDEAlum.remove(this.objeAlum);
             this.listAlum.remove(this.objeAlum);
-            this.limpForm();
             log.info("Alumno eliminado: " +objeAlum.getNombAlum()+" "+objeAlum.getApelAlum());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
+            this.limpForm();
         }
         catch(Exception ex)
         {
-            log.error("Error al eliminar Alumno: " +  ex.getMessage());
+            log.error("Error al eliminar Alumno: " +  String.valueOf(ex.fillInStackTrace()));
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }
         finally
@@ -164,7 +165,7 @@ public class AlumnosBean implements Serializable{
         }
         catch(Exception ex)
         {
-            log.error("Error al consultar Alumno: " +  ex.getMessage());
+            log.error("Error al consultar Alumno: " +  String.valueOf(ex.fillInStackTrace()));
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
         }
         finally
